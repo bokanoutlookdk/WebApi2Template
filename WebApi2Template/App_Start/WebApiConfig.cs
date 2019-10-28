@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using System.Web.Http.ExceptionHandling;
+using WebApi2Template.Utils.ExceptionHandling;
 
 namespace WebApi2Template
 {
@@ -9,7 +11,11 @@ namespace WebApi2Template
     {
         public static void Register(HttpConfiguration config)
         {
-            // Web API configuration and services
+            config.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.LocalOnly;
+
+            config.Services.Replace(typeof(IExceptionLogger), new EventLogExceptionLogger());
+
+            config.MapHttpAttributeRoutes();
 
             // Web API routes
             config.MapHttpAttributeRoutes();
